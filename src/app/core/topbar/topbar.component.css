@@ -1,16 +1,23 @@
 .topbar {
-    @apply bg-blue-600 px-4 text-white flex justify-between items-center;
+    @apply bg-blue-600 px-4 py-2 text-white flex justify-between items-center;
 }
 
-.title {
+.topbar-title {
     @apply text-2xl font-bold;
 }
 
 .nav-links {
-    @apply flex gap-4 text-white list-none;
+    @apply flex justify-center items-center gap-8 text-white list-none;
+}
 
-    & a {
-        @apply text-white no-underline;
-    }
+.nav-buttons {
+    @apply flex items-center gap-2;
+}
 
+.nav-buttons-icon {
+    @apply bg-transparent text-white border-none;
+}
+
+.nav-item {
+    @apply text-white no-underline flex gap-1 text-sm cursor-pointer;
 }

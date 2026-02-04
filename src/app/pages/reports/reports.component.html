@@ -1,40 +1,64 @@
 <div class="report-container">
-    <h3 class="report-title">All Reports</h3>
+    <p class="report-title">All Reports</p>
     <div class="report-table-actions">
         <div class="report-table-filter">
-            <input type="text" placeholder="Filter">
+            <div class="input-container">
+                <lucide-icon [name]="SearchIcon" class="search-icon"></lucide-icon>
+                <input type="text" placeholder="Search..." class="input-field">
+            </div>
         </div>
         <div class="report-table-buttons">
-            <button>Add</button>
-            <button>Sort</button>
+            <button class="button-add" type="button" [routerLink]="['/reports/add']">
+                <lucide-icon [name]="PlusIcon" class="plus-icon"></lucide-icon>
+                Add New Report
+            </button>
+            @if (isNewest) {
+            <button (click)="toggleSort()" class="button-sort">Sort by:<span class="button-sort-font">Newest</span>
+                <lucide-icon [name]="ChevronDownIcon" class="arrow-icon"></lucide-icon></button>
+            }@else {
+            <button (click)="toggleSort()" class="button-sort">Sort by:<span class="button-sort-font">Oldest</span>
+                <lucide-icon [name]="ChevronUpIcon" class="arrow-icon"></lucide-icon></button>
+            }
+
+
         </div>
     </div>
     <div class="report-table">
         <table class="table">
             <tbody>
-                <tr>
-                    <td>Test report</td>
-                    <td>
-                        <strong>Created</strong>
-                        <p>2022-01-01</p>
+                @for (report of listReports; track $index) {
+                <tr class="table-cell" [class.cell-active]="report.active" [class.cell-inactive]="!report.active"
+                    (click)="selectReport(report)">
+                    <td class="table-main-data-cell">
+                        <lucide-icon [name]="ChartPieIcon" class="chart-icon"></lucide-icon>
+                        <p>{{report.title}}</p>
+                    </td>
+                    <td class="table-data-cell">
+                        <span>Created</span>
+                        <p>{{report.created}}</p>
+                    </td>
+                    <td class="table-data-cell">
+                        <span>Modified</span>
+                        <p>{{report.modified}}</p>
+                    </td>
+                    <td class="table-data-cell">
+                        <span>Owner</span>
+                        <p>{{report.owner}}</p>
+                    </td>
+                    <td class="table-data-cell">
+                        <span>Form</span>
+                        <p>{{report.form}}</p>
                     </td>
                     <td>
-                        <strong>Modified</strong>
-                        <p>2022-01-01</p>
-                    </td>
-                    <td>
-                        <strong>Owner</strong>
-                        <p>John Doe</p>
-                    </td>
-                    <td>
-                        <strong>Form</strong>
-                        <p>Test form</p>
-                    </td>
-                    <td>
-                        <button>Edit</button>
-                        <button>Delete</button>
+                        <button class="delete-icon">
+                            <lucide-icon [name]="TrashIcon"></lucide-icon>
+                        </button>
+                        <button class="edit-icon">
+                            <lucide-icon [name]="PencilIcon"></lucide-icon>
+                        </button>
                     </td>
                 </tr>
+                }
             </tbody>
         </table>
     </div>
@@ -43,11 +67,11 @@
             <p>Showing 1 to 10 of 100 records</p>
         </div>
         <div class="report-pagination-buttons">
-            <button>Previous</button>
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>Next</button>
+            <button class="report-pagination-button"><lucide-icon [name]="ChevronLeftIcon"></lucide-icon></button>
+            <button class="report-pagination-button">1</button>
+            <button class="report-pagination-button">2</button>
+            <button class="report-pagination-button">3</button>
+            <button class="report-pagination-button"><lucide-icon [name]="ChevronRightIcon"></lucide-icon></button>
         </div>
     </div>
 </div>

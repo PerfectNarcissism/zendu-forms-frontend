@@ -1,35 +1,33 @@
 <header class="topbar">
-    <div class="flex items-center px-6">
-        <span class="text-2xl font-bold tracking-tight">ZenduForms</span>
-    </div>
+    <span class="topbar-title">ZenduForms</span>
 
     <div class="nav-links">
         <a routerLink="/forms" routerLinkActive="active" class="nav-item">
-            <lucide-icon [name]="ListIcon"></lucide-icon> Forms
+            <lucide-icon [name]="ListIcon" [size]="18"></lucide-icon> Forms
         </a>
         <a routerLink="/customers" routerLinkActive="active" class="nav-item">
-            <lucide-icon [name]="UserIcon"></lucide-icon> Customers
+            <lucide-icon [name]="UserIcon" [size]="18"></lucide-icon> Customers
         </a>
         <a routerLink="/submissions" routerLinkActive="active" class="nav-item">
-            <lucide-icon [name]="ActivityIcon"></lucide-icon> Submissions
+            <lucide-icon [name]="ActivityIcon" [size]="18"></lucide-icon> Submissions
         </a>
         <a routerLink="/history" routerLinkActive="active" class="nav-item">
-            <lucide-icon [name]="HistoryIcon"></lucide-icon> History
+            <lucide-icon [name]="HistoryIcon" [size]="18"></lucide-icon> History
         </a>
         <a routerLink="/reports" routerLinkActive="active" class="nav-item">
-            <lucide-icon [name]="DashboardIcon"></lucide-icon> Reports
+            <lucide-icon [name]="DashboardIcon" [size]="18"></lucide-icon> Reports
         </a>
         <a routerLink="/workflow" routerLinkActive="active" class="nav-item">
-            <lucide-icon [name]="GitMergeIcon"></lucide-icon> Workflow
+            <lucide-icon [name]="GitMergeIcon" [size]="18"></lucide-icon> Workflow
         </a>
     </div>
 
-    <div class="flex items-center gap-4 px-6">
-        <button class="p-2 hover:bg-blue-700 rounded-full transition-colors">
-            <lucide-icon [name]="BellIcon"></lucide-icon>
+    <div class="nav-buttons">
+        <button class="nav-buttons-icon">
+            <lucide-icon fill="white" [name]="BellIcon"></lucide-icon>
         </button>
-        <button class="p-2 hover:bg-blue-700 rounded-full transition-colors">
-            <lucide-icon [name]="LogOutIcon"></lucide-icon>
+        <button class="nav-buttons-icon">
+            <lucide-icon fill="white" [name]="LogOutIcon"></lucide-icon>
         </button>
     </div>
 </header>
