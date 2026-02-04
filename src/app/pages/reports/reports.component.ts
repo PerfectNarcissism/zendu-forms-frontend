@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, computed, signal, WritableSignal } from '@angular/core';
 import { RouterLink } from "@angular/router";
 import { LucideAngularModule, Search, Plus, ChevronDown, ChevronUp, ChevronRight, ChevronLeft, ChartPieIcon, PencilIcon, TrashIcon } from "lucide-angular";
+import { ReportsApi } from './services/reports.api';
+import { ReportType } from './types/report';
 
 @Component({
   selector: 'app-reports',
@@ -20,33 +22,76 @@ export class ReportsComponent {
   readonly PencilIcon = PencilIcon;
   readonly TrashIcon = TrashIcon;
 
+  protected readonly Math = Math;
+
   isNewest: boolean = true;
 
-  listReports: { title: string, created: string, modified: string, owner: string, form: string, active?: boolean }[] = [
-    {
-      title: "Test report",
-      created: "2022-01-01",
-      modified: "2022-01-01",
-      owner: "John Doe",
-      form: "Test form",
-      active: true
-    },
-    {
-      title: "Test report",
-      created: "2026-01-01",
-      modified: "2026-02-01",
-      owner: "Andres Castaneda",
-      form: "Test A"
-    }
-  ]
+  // APIs
+  readonly reportsApi = new ReportsApi();
 
-  toggleSort() {
+  // Signals reactivity
+  listReports: WritableSignal<ReportType[]> = signal([])
+  showSortDropdown = signal(false);
+  currentSort = signal('Newest');
+  currentFilter = signal('');
+  currentPage = signal(1);
+  pageSize = signal(4);
+
+  // Functions
+  toggleSort = () => {
     this.isNewest = !this.isNewest;
   }
 
-  selectReport(selectedReport: { title: string, created: string, modified: string, owner: string, form: string, active?: boolean }) {
-    this.listReports.forEach(report => report.active = false);
+  updateSearch = async (event: Event) => {
+    const value = (event.target as HTMLInputElement).value;
+    this.currentFilter.set(value);
 
-    selectedReport.active = true;
+    this.currentPage.set(1);
+
+    const results = await this.reportsApi.getAllReports(value, this.currentSort() as 'Newest' | 'Oldest');
+    this.listReports.set(results);
   }
+
+  toggleSortDropdown = () => {
+    this.showSortDropdown.set(!this.showSortDropdown());
+  }
+
+  applySort = async (type: 'Newest' | 'Oldest') => {
+    this.currentSort.set(type);
+    this.showSortDropdown.set(false);
+
+    this.currentPage.set(1);
+
+    const results = await this.reportsApi.getAllReports(this.currentFilter(), type);
+    this.listReports.set(results);
+  }
+
+  goToPage = (page: number) => {
+    if (page >= 1 && page <= this.totalPages()) {
+      this.currentPage.set(page);
+    }
+  }
+
+  nextPage = () => {
+    this.goToPage(this.currentPage() + 1);
+  }
+
+  prevPage = () => {
+    this.goToPage(this.currentPage() - 1);
+  }
+
+  paginatedReports = computed(() => {
+    const startIndex = (this.currentPage() - 1) * this.pageSize();
+    const endIndex = startIndex + this.pageSize();
+    return this.listReports().slice(startIndex, endIndex);
+  });
+
+  // Lifecycle
+  async ngOnInit(): Promise<void> {
+    this.listReports.set(await this.reportsApi.getAllReports(this.currentFilter(), this.currentSort() as 'Newest' | 'Oldest'));
+  }
+
+
+  totalRecords = computed(() => this.listReports().length);
+  totalPages = computed(() => Math.ceil(this.totalRecords() / this.pageSize()));
 }

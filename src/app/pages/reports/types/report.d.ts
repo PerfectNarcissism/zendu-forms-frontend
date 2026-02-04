@@ -1,0 +1,1 @@
+export type ReportType = { title: string, created: Date, modified: Date, owner: string, form: string, link: string, active?: boolean }

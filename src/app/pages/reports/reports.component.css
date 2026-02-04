@@ -1,9 +1,13 @@
 .report-container {
-    @apply flex flex-col gap-7 p-7;
+    @apply flex flex-col gap-3 px-7 py-0;
 }
 
 .report-title {
     @apply text-3xl font-bold;
+}
+
+.report-table {
+    @apply w-full min-w-96;
 }
 
 .report-table-actions {
@@ -55,22 +59,32 @@
 }
 
 .table-cell {
-    @apply grid grid-cols-6 items-center border-solid border-2 rounded-md px-4 mb-4 transition-all duration-200 cursor-pointer;
+    @apply grid grid-cols-6 items-center border-solid border-2 rounded-md px-4 mb-4 transition-all duration-200 border-gray-200 bg-white hover:border-gray-300;
 }
 
-.cell-active {
+/* .cell-active {
     @apply border-blue-400 bg-blue-50;
 }
 
 .cell-inactive {
     @apply border-gray-200 bg-white hover:border-gray-300;
+} */
+
+.table-cell:hover {
+    @apply border-blue-400 bg-blue-50;
 }
+
+
 
 .table-data-cell {
     @apply flex flex-col items-start pt-4 gap-0;
 
     &>span {
         @apply text-gray-300;
+    }
+
+    &>a {
+        @apply text-blue-500 no-underline font-semibold;
     }
 }
 
@@ -84,7 +98,7 @@
 
 .edit-icon,
 .delete-icon {
-    @apply cursor-pointer bg-transparent border-none;
+    @apply cursor-pointer bg-transparent border-none hover:rounded-full hover:bg-white hover:border-gray-200 pr-1.5 pt-1;
 }
 
 .delete-icon {
@@ -101,4 +115,37 @@
 
 .report-pagination-button {
     @apply cursor-pointer border-solid border border-gray-300 bg-transparent rounded-md size-8 text-sm transition-all duration-200 flex items-center justify-center;
+
+    &>lucide-icon {
+        @apply pt-1.5 text-gray-400;
+        ;
+    }
+
+    &:hover {
+        @apply border-blue-400;
+    }
+}
+
+.report-pagination-button--active {
+    @apply border border-blue-400;
+}
+
+.report-pagination-button--inactive {
+    @apply border border-gray-200 bg-gray-200;
+
+    &:hover {
+        @apply border-gray-200 cursor-not-allowed;
+    }
+}
+
+.dropdown-menu {
+    @apply absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-50 overflow-hidden;
+}
+
+.dropdown-item {
+    @apply px-4 py-2 text-sm text-gray-700 cursor-pointer transition-colors duration-150;
+
+    &:hover {
+        @apply bg-blue-50 text-blue-600 font-medium;
+    }
 }

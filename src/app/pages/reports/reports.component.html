@@ -4,7 +4,7 @@
         <div class="report-table-filter">
             <div class="input-container">
                 <lucide-icon [name]="SearchIcon" class="search-icon"></lucide-icon>
-                <input type="text" placeholder="Search..." class="input-field">
+                <input type="text" placeholder="Search..." class="input-field" (input)="updateSearch($event)">
             </div>
         </div>
         <div class="report-table-buttons">
@@ -12,23 +12,28 @@
                 <lucide-icon [name]="PlusIcon" class="plus-icon"></lucide-icon>
                 Add New Report
             </button>
-            @if (isNewest) {
-            <button (click)="toggleSort()" class="button-sort">Sort by:<span class="button-sort-font">Newest</span>
-                <lucide-icon [name]="ChevronDownIcon" class="arrow-icon"></lucide-icon></button>
-            }@else {
-            <button (click)="toggleSort()" class="button-sort">Sort by:<span class="button-sort-font">Oldest</span>
-                <lucide-icon [name]="ChevronUpIcon" class="arrow-icon"></lucide-icon></button>
-            }
+            <div class="relative">
+                <button (click)="toggleSortDropdown()" class="button-sort">
+                    Sort by: <span class="button-sort-font">{{ currentSort() }}</span>
+                    <lucide-icon [name]="showSortDropdown() ? ChevronUpIcon : ChevronDownIcon"
+                        class="arrow-icon"></lucide-icon>
+                </button>
 
+                @if (showSortDropdown()) {
+                <div class="dropdown-menu">
+                    <div (click)="applySort('Newest')" class="dropdown-item">Newest</div>
+                    <div (click)="applySort('Oldest')" class="dropdown-item">Oldest</div>
+                </div>
+                }
+            </div>
 
         </div>
     </div>
     <div class="report-table">
         <table class="table">
             <tbody>
-                @for (report of listReports; track $index) {
-                <tr class="table-cell" [class.cell-active]="report.active" [class.cell-inactive]="!report.active"
-                    (click)="selectReport(report)">
+                @for (report of paginatedReports(); track $index) {
+                <tr class="table-cell" [class.cell-active]="report.active" [class.cell-inactive]="!report.active">
                     <td class="table-main-data-cell">
                         <lucide-icon [name]="ChartPieIcon" class="chart-icon"></lucide-icon>
                         <p>{{report.title}}</p>
@@ -47,7 +52,7 @@
                     </td>
                     <td class="table-data-cell">
                         <span>Form</span>
-                        <p>{{report.form}}</p>
+                        <a [href]="report.link" target="_blank">{{report.form}}</a>
                     </td>
                     <td>
                         <button class="delete-icon">
@@ -64,14 +69,28 @@
     </div>
     <div class="report-pagination">
         <div class="report-history-records">
-            <p>Showing 1 to 10 of 100 records</p>
+            <p>{{ (currentPage() - 1) * pageSize() + 1 }}-{{ Math.min(currentPage() * pageSize(), totalRecords()) }}
+                of {{ totalRecords() }} History Records</p>
         </div>
         <div class="report-pagination-buttons">
-            <button class="report-pagination-button"><lucide-icon [name]="ChevronLeftIcon"></lucide-icon></button>
-            <button class="report-pagination-button">1</button>
-            <button class="report-pagination-button">2</button>
-            <button class="report-pagination-button">3</button>
-            <button class="report-pagination-button"><lucide-icon [name]="ChevronRightIcon"></lucide-icon></button>
+            <button class="report-pagination-button" [class.report-pagination-button--inactive]="currentPage() === 1"
+                (click)="prevPage()" [disabled]="currentPage() === 1">
+                <lucide-icon [name]="ChevronLeftIcon"></lucide-icon>
+            </button>
+
+            @for (p of [].constructor(totalPages()); track $index) {
+            <button class="report-pagination-button"
+                [class.report-pagination-button--active]="currentPage() === ($index + 1)"
+                (click)="goToPage($index + 1)">
+                {{ $index + 1 }}
+            </button>
+            }
+
+            <button class="report-pagination-button"
+                [class.report-pagination-button--inactive]="currentPage() === totalPages()" (click)="nextPage()"
+                [disabled]="currentPage() === totalPages()">
+                <lucide-icon [name]="ChevronRightIcon"></lucide-icon>
+            </button>
         </div>
     </div>
 </div>
