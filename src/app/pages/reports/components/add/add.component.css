@@ -1,0 +1,36 @@
+.add-report-container {
+    @apply min-h-[calc(100vh-64px)] flex items-center justify-center p-4;
+}
+
+.add-report-card {
+    @apply w-full max-w-2xl rounded-xl shadow-sm p-12 flex flex-col bg-gray-100 items-center;
+}
+
+.form-group {
+    @apply flex flex-col gap-6 w-full;
+}
+
+.form-input,
+.form-select {
+    @apply border border-gray-300 text-gray-700 transition-all p-2;
+
+    &:focus {
+        @apply border-blue-500 ring-1 ring-blue-500;
+    }
+}
+
+.form-select {
+    @apply w-full;
+}
+
+.actions {
+    @apply flex justify-center gap-4 mt-10;
+}
+
+.btn-cancel {
+    @apply px-10 py-2.5 border border-blue-400 text-blue-500 rounded bg-white hover:bg-blue-50 transition-colors font-medium;
+}
+
+.btn-create {
+    @apply px-10 py-2.5 border bg-[#4482ce] text-white rounded hover:bg-blue-700 transition-colors font-medium shadow-sm;
+}

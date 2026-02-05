@@ -1,0 +1,15 @@
+<div class="relative">
+    <button (click)="toggleSortDropdown()" class="button-sort">
+        Sort by: <span class="button-sort-font">{{ currentSort() }}</span>
+        <lucide-icon [name]="showSortDropdown() ? ChevronUpIcon : ChevronDownIcon" class="arrow-icon"></lucide-icon>
+    </button>
+
+    @if (showSortDropdown()) {
+    <div class="dropdown-menu">
+        <div (click)="applySort('Newest')" (keydown.enter)="applySort('Newest')" tabindex="0" role="button"
+            class="dropdown-item">Newest</div>
+        <div (click)="applySort('Oldest')" (keydown.enter)="applySort('Oldest')" tabindex="0" role="button"
+            class="dropdown-item">Oldest</div>
+    </div>
+    }
+</div>

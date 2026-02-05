@@ -1,0 +1,82 @@
+<div class="report-container">
+    <p class="report-title">All Reports</p>
+    <div class="report-table-actions">
+        <div class="report-table-filter">
+            <app-search-input (updated)="updateSearch($event)"></app-search-input>
+        </div>
+        <div class="report-table-buttons">
+            <button class="button-add" type="button" [routerLink]="['/reports/add']">
+                <lucide-icon [name]="PlusIcon" class="plus-icon"></lucide-icon>
+                Add New Report
+            </button>
+            <app-sort-dropdown (sorted)="applySort($event.type)"></app-sort-dropdown>
+        </div>
+    </div>
+    <div class="report-table">
+        <table class="table">
+            <tbody>
+                @for (report of paginatedReports(); track $index) {
+                <tr class="table-cell" [class.cell-active]="report.active" [class.cell-inactive]="!report.active">
+                    <td class="table-main-data-cell">
+                        <lucide-icon [name]="ChartPieIcon" class="chart-icon"></lucide-icon>
+                        <p>{{report.title}}</p>
+                    </td>
+                    <td class="table-data-cell">
+                        <span>Created</span>
+                        <p>{{report.created}}</p>
+                    </td>
+                    <td class="table-data-cell">
+                        <span>Modified</span>
+                        <p>{{report.modified}}</p>
+                    </td>
+                    <td class="table-data-cell">
+                        <span>Owner</span>
+                        <p>{{report.owner}}</p>
+                    </td>
+                    <td class="table-data-cell">
+                        <span>Form</span>
+                        <a [href]="report.link" target="_blank">{{report.form}}</a>
+                    </td>
+                    <td>
+                        <button class="delete-icon" (click)="openDeleteModal(report)">
+                            <lucide-icon [name]="TrashIcon"></lucide-icon>
+                        </button>
+                        <button class="edit-icon">
+                            <lucide-icon [name]="PencilIcon"></lucide-icon>
+                        </button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="report-pagination">
+        <div class="report-history-records">
+            <p>{{ (currentPage() - 1) * pageSize() + 1 }}-{{ Math.min(currentPage() * pageSize(), totalRecords()) }}
+                of {{ totalRecords() }} History Records</p>
+        </div>
+        <div class="report-pagination-buttons">
+            <button class="report-pagination-button" [class.report-pagination-button--inactive]="currentPage() === 1"
+                (click)="prevPage()" [disabled]="currentPage() === 1">
+                <lucide-icon [name]="ChevronLeftIcon"></lucide-icon>
+            </button>
+
+            @for (p of [].constructor(totalPages()); track $index) {
+            <button class="report-pagination-button"
+                [class.report-pagination-button--active]="currentPage() === ($index + 1)"
+                (click)="goToPage($index + 1)">
+                {{ $index + 1 }}
+            </button>
+            }
+
+            <button class="report-pagination-button"
+                [class.report-pagination-button--inactive]="currentPage() === totalPages()" (click)="nextPage()"
+                [disabled]="currentPage() === totalPages()">
+                <lucide-icon [name]="ChevronRightIcon"></lucide-icon>
+            </button>
+        </div>
+    </div>
+</div>
+<app-delete [isOpen]="showDeleteModal()" [title]="'Delete Report'"
+    [message]="'Are you sure you want to delete ' + reportToDelete()?.title + '?'" (confirmed)="handleDelete()"
+    (closed)="closeModal()" />

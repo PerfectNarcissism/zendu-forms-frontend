@@ -1,0 +1,31 @@
+.topbar {
+    @apply bg-blue-600 px-4 text-white flex justify-between items-center;
+}
+
+.topbar-title {
+    @apply text-2xl font-bold;
+}
+
+.nav-links {
+    @apply flex justify-center items-center gap-10 text-white
+}
+
+.nav-buttons {
+    @apply flex items-center gap-2;
+}
+
+.nav-buttons-icon {
+    @apply bg-transparent text-white border-none;
+}
+
+.nav-item {
+    @apply text-white no-underline flex gap-1 text-sm cursor-pointer px-2 py-5;
+
+    &:hover {
+        @apply bg-blue-700;
+    }
+}
+
+.active {
+    @apply bg-red-500 font-bold;
+}

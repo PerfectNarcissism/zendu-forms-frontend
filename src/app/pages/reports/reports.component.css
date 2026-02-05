@@ -1,0 +1,109 @@
+.report-container {
+    @apply flex flex-col gap-3 px-7 py-0;
+}
+
+.report-title {
+    @apply text-3xl font-bold;
+}
+
+.report-table {
+    @apply w-full min-w-96;
+}
+
+.report-table-actions {
+    @apply flex justify-between items-center gap-4;
+}
+
+.report-table-buttons {
+    @apply flex gap-4;
+}
+
+.report-pagination {
+    @apply flex justify-between items-center gap-4;
+}
+
+.table {
+    @apply w-full border-collapse text-sm;
+}
+
+.report-table-filter {
+    @apply w-1/3;
+}
+
+.arrow-icon {
+    @apply text-black;
+}
+
+.button-add {
+    @apply bg-blue-500 text-white border-none rounded-sm cursor-pointer flex items-center gap-2 px-6 py-2.5;
+}
+
+.table-cell {
+    @apply grid grid-cols-6 items-center border-solid border-2 rounded-md px-4 mb-4 transition-all duration-200 border-gray-200 bg-white hover:border-gray-300;
+}
+
+.table-cell:hover {
+    @apply border-blue-400 bg-blue-50;
+}
+
+.table-data-cell {
+    @apply flex flex-col items-start pt-4 gap-0;
+
+    &>span {
+        @apply text-gray-300;
+    }
+
+    &>a {
+        @apply text-blue-500 no-underline font-semibold;
+    }
+}
+
+.table-main-data-cell {
+    @apply flex items-center gap-2 font-bold;
+}
+
+.chart-icon {
+    @apply text-blue-500;
+}
+
+.edit-icon,
+.delete-icon {
+    @apply cursor-pointer bg-transparent border-none hover:rounded-full hover:bg-white hover:border-gray-200 pr-1.5 pt-1;
+}
+
+.delete-icon {
+    @apply text-red-500;
+}
+
+.edit-icon {
+    @apply text-blue-500
+}
+
+.report-pagination-buttons {
+    @apply flex gap-2 items-center justify-center;
+}
+
+.report-pagination-button {
+    @apply cursor-pointer border-solid border border-gray-300 bg-transparent rounded-md size-8 text-sm transition-all duration-200 flex items-center justify-center;
+
+    &>lucide-icon {
+        @apply pt-1.5 text-gray-400;
+        ;
+    }
+
+    &:hover {
+        @apply border-blue-400;
+    }
+}
+
+.report-pagination-button--active {
+    @apply border border-blue-400;
+}
+
+.report-pagination-button--inactive {
+    @apply border border-gray-200 bg-gray-200;
+
+    &:hover {
+        @apply border-gray-200 cursor-not-allowed;
+    }
+}

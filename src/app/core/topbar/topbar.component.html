@@ -1,0 +1,33 @@
+<header class="topbar">
+    <span class="topbar-title">ZenduForms</span>
+
+    <nav class="nav-links">
+        <a routerLink="/forms" routerLinkActive="nav-item-active" class="nav-item">
+            <lucide-icon [name]="ListIcon" [size]="18"></lucide-icon> Forms
+        </a>
+        <a routerLink="/customers" routerLinkActive="nav-item-active" class="nav-item">
+            <lucide-icon [name]="UserIcon" [size]="18"></lucide-icon> Customers
+        </a>
+        <a routerLink="/submissions" routerLinkActive="active" class="nav-item">
+            <lucide-icon [name]="ActivityIcon" [size]="18"></lucide-icon> Submissions
+        </a>
+        <a routerLink="/history" routerLinkActive="active" class="nav-item">
+            <lucide-icon [name]="HistoryIcon" [size]="18"></lucide-icon> History
+        </a>
+        <a routerLink="/reports" routerLinkActive="nav-item" class="nav-item">
+            <lucide-icon [name]="DashboardIcon" [size]="18"></lucide-icon> Reports
+        </a>
+        <a routerLink="/workflow" routerLinkActive="active" class="nav-item">
+            <lucide-icon [name]="GitMergeIcon" [size]="18"></lucide-icon> Workflow
+        </a>
+    </nav>
+
+    <div class="nav-buttons">
+        <button class="nav-buttons-icon">
+            <lucide-icon fill="white" [name]="BellIcon"></lucide-icon>
+        </button>
+        <button class="nav-buttons-icon">
+            <lucide-icon fill="white" [name]="LogOutIcon"></lucide-icon>
+        </button>
+    </div>
+</header>
