@@ -1,0 +1,19 @@
+.button-sort {
+    @apply text-gray-500 bg-transparent border-none cursor-pointer flex items-center gap-2 px-6 py-2.5;
+}
+
+.button-sort-font {
+    @apply font-bold text-black;
+}
+
+.dropdown-menu {
+    @apply absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-50 overflow-hidden;
+}
+
+.dropdown-item {
+    @apply px-4 py-2 text-sm text-gray-700 cursor-pointer transition-colors duration-150;
+
+    &:hover {
+        @apply bg-blue-50 text-blue-600 font-medium;
+    }
+}

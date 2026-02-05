@@ -1,17 +1,20 @@
-import { Component, computed, signal, WritableSignal } from '@angular/core';
+import { Component, computed, signal, WritableSignal, OnInit } from '@angular/core';
 import { RouterLink } from "@angular/router";
 import { LucideAngularModule, Search, Plus, ChevronDown, ChevronUp, ChevronRight, ChevronLeft, ChartPieIcon, PencilIcon, TrashIcon } from "lucide-angular";
 import { ReportsApi } from './services/reports.api';
-import { ReportType } from './types/report';
+import { ReportTypeString } from './types/report';
+import { DeleteComponent } from './components/delete/delete.component';
+import { SearchInputComponent } from "../../core/search-input/search-input.component";
+import { SortDropdownComponent } from "../../core/sort-dropdown/sort-dropdown.component";
 
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [RouterLink, LucideAngularModule],
+  imports: [RouterLink, LucideAngularModule, DeleteComponent, SearchInputComponent, SortDropdownComponent],
   templateUrl: './reports.component.html',
   styleUrl: './reports.component.css'
 })
-export class ReportsComponent {
+export class ReportsComponent implements OnInit {
   readonly SearchIcon = Search;
   readonly PlusIcon = Plus;
   readonly ChevronDownIcon = ChevronDown;
@@ -24,18 +27,19 @@ export class ReportsComponent {
 
   protected readonly Math = Math;
 
-  isNewest: boolean = true;
+  isNewest = true;
 
   // APIs
   readonly reportsApi = new ReportsApi();
 
   // Signals reactivity
-  listReports: WritableSignal<ReportType[]> = signal([])
-  showSortDropdown = signal(false);
+  listReports: WritableSignal<ReportTypeString[]> = signal([])
   currentSort = signal('Newest');
   currentFilter = signal('');
   currentPage = signal(1);
   pageSize = signal(4);
+  showDeleteModal = signal(false);
+  reportToDelete = signal<ReportTypeString | null>(null);
 
   // Functions
   toggleSort = () => {
@@ -52,16 +56,7 @@ export class ReportsComponent {
     this.listReports.set(results);
   }
 
-  toggleSortDropdown = () => {
-    this.showSortDropdown.set(!this.showSortDropdown());
-  }
-
   applySort = async (type: 'Newest' | 'Oldest') => {
-    this.currentSort.set(type);
-    this.showSortDropdown.set(false);
-
-    this.currentPage.set(1);
-
     const results = await this.reportsApi.getAllReports(this.currentFilter(), type);
     this.listReports.set(results);
   }
@@ -78,6 +73,28 @@ export class ReportsComponent {
 
   prevPage = () => {
     this.goToPage(this.currentPage() - 1);
+  }
+
+  openDeleteModal = (report: ReportTypeString) => {
+    this.reportToDelete.set(report);
+    this.showDeleteModal.set(true);
+  }
+
+  handleDelete = async () => {
+    const report = this.reportToDelete();
+
+    if (!report) return;
+
+    await this.reportsApi.delete(report.title)
+
+    const results = await this.reportsApi.getAllReports(this.currentFilter(), this.currentSort() as 'Newest' | 'Oldest');
+    this.listReports.set(results);
+
+    this.showDeleteModal.set(false);
+  }
+
+  closeModal() {
+    this.showDeleteModal.set(false);
   }
 
   paginatedReports = computed(() => {

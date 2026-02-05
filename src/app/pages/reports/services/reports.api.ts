@@ -1,9 +1,10 @@
 import { GetReportsMapper } from "../mappers/get-reports.mapper";
 import { defaultReports } from "../static/default-reports";
+import { ReportTypeString } from "../types/report";
 
 export class ReportsApi {
-    private readonly sourceData = defaultReports;
-    async getAllReports(filter?: string, sort?: 'Newest' | 'Oldest'): Promise<any> {
+    private sourceData = defaultReports;
+    async getAllReports(filter?: string, sort?: 'Newest' | 'Oldest'): Promise<ReportTypeString[]> {
         let filteredData = [...this.sourceData];
 
         if (filter) {
@@ -29,5 +30,9 @@ export class ReportsApi {
         return new Promise((resolve) => {
             resolve(GetReportsMapper.toFront(filteredData));
         });
+    }
+
+    async delete(title: string): Promise<void> {
+        this.sourceData = this.sourceData.filter((report) => report.title !== title);
     }
 }

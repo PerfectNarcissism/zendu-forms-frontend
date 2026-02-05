@@ -2,31 +2,14 @@
     <p class="report-title">All Reports</p>
     <div class="report-table-actions">
         <div class="report-table-filter">
-            <div class="input-container">
-                <lucide-icon [name]="SearchIcon" class="search-icon"></lucide-icon>
-                <input type="text" placeholder="Search..." class="input-field" (input)="updateSearch($event)">
-            </div>
+            <app-search-input (updated)="updateSearch($event)"></app-search-input>
         </div>
         <div class="report-table-buttons">
             <button class="button-add" type="button" [routerLink]="['/reports/add']">
                 <lucide-icon [name]="PlusIcon" class="plus-icon"></lucide-icon>
                 Add New Report
             </button>
-            <div class="relative">
-                <button (click)="toggleSortDropdown()" class="button-sort">
-                    Sort by: <span class="button-sort-font">{{ currentSort() }}</span>
-                    <lucide-icon [name]="showSortDropdown() ? ChevronUpIcon : ChevronDownIcon"
-                        class="arrow-icon"></lucide-icon>
-                </button>
-
-                @if (showSortDropdown()) {
-                <div class="dropdown-menu">
-                    <div (click)="applySort('Newest')" class="dropdown-item">Newest</div>
-                    <div (click)="applySort('Oldest')" class="dropdown-item">Oldest</div>
-                </div>
-                }
-            </div>
-
+            <app-sort-dropdown (sorted)="applySort($event.type)"></app-sort-dropdown>
         </div>
     </div>
     <div class="report-table">
@@ -55,7 +38,7 @@
                         <a [href]="report.link" target="_blank">{{report.form}}</a>
                     </td>
                     <td>
-                        <button class="delete-icon">
+                        <button class="delete-icon" (click)="openDeleteModal(report)">
                             <lucide-icon [name]="TrashIcon"></lucide-icon>
                         </button>
                         <button class="edit-icon">
@@ -94,3 +77,6 @@
         </div>
     </div>
 </div>
+<app-delete [isOpen]="showDeleteModal()" [title]="'Delete Report'"
+    [message]="'Are you sure you want to delete ' + reportToDelete()?.title + '?'" (confirmed)="handleDelete()"
+    (closed)="closeModal()" />

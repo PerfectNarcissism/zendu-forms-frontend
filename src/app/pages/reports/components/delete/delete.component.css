@@ -1,0 +1,19 @@
+.modal-overlay {
+    @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100];
+}
+
+.modal-content {
+    @apply bg-white p-4 rounded-lg shadow-xl w-full max-w-md flex flex-col gap-4;
+}
+
+.modal-actions {
+    @apply flex justify-end gap-3 mt-4;
+}
+
+.btn-cancel {
+    @apply px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-md transition-colors border-none cursor-pointer;
+}
+
+.btn-confirm {
+    @apply px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition-colors border-none cursor-pointer;
+}
